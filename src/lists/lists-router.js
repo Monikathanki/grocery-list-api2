@@ -6,10 +6,7 @@ const { requireAuth } = require("../middleware/jwt-auth");
 const logger = require("../logger");
 
 const listsRouter = express.Router();
-<<<<<<< HEAD
 // const parser = express.json()
-=======
->>>>>>> a7de46fc713c7978e224e202ad4d4cd99981ec2b
 
 const serializeList = (lists) => {
     return {
@@ -19,24 +16,14 @@ const serializeList = (lists) => {
         price: lists.price,
         weight: lists.weight,
         checked: lists.checked,
-<<<<<<< HEAD
         // category_id: lists.category_id,
         user_id: lists.user_id,
-=======
-        category_id: lists.category_id,
-        user_id: lists.user_id,
-
->>>>>>> a7de46fc713c7978e224e202ad4d4cd99981ec2b
     };
 };
 
 listsRouter
-<<<<<<< HEAD
     .route("/")
     .get(requireAuth, (req, res, next) => {
-=======
-    .route("/").get(requireAuth, (req, res, next) => {
->>>>>>> a7de46fc713c7978e224e202ad4d4cd99981ec2b
         const knexInstance = req.app.get("db");
         const user_id = req.user.id;
         ListsService.getAllLists(knexInstance, user_id)
@@ -53,13 +40,7 @@ listsRouter
             price,
             weight,
             checked,
-<<<<<<< HEAD
             user_id,
-=======
-            category_id,
-            user_id,
-
->>>>>>> a7de46fc713c7978e224e202ad4d4cd99981ec2b
         } = req.body;
 
         const newList = {
@@ -69,7 +50,6 @@ listsRouter
             price,
             weight,
             checked,
-<<<<<<< HEAD
             user_id,
         };
         // console.log(newList)
@@ -117,55 +97,15 @@ listsRouter
             })
             .catch(next);
     })
-=======
-            category_id,
-            user_id,
-
-        };
-
-        for (const [key, value] of Object.entries(newList))
-            if (value == null) {
-                return res.status(400)
-                    .json({
-                        error: { message: `Missing '${key}' in request body` },
-                    });
-            }
-        ListsService.insertList(req.app.get("db"), newList).then((list) => {
-            res
-                .status(201).location(path.posix.join(req.originalUrl, `/${list.id}`))
-                .json(list);
-        })
-            .catch(next);
-    });
-
-listsRouter.route("/:id").all((req, res, next) => {
-    ListsService.getById(req.app.get("db"), req.params.id).then((list) => {
-        if (!list) {
-            return res.status(404).json({
-                error: { message: `List doesn't exist` },
-            });
-        }
-        res.list = list;
-        next();
-    })
-        .catch(next);
-})
->>>>>>> a7de46fc713c7978e224e202ad4d4cd99981ec2b
     .get(requireAuth, (req, res, next) => {
         res.json(res.list);
     })
     .delete(requireAuth, (req, res, next) => {
         ListsService.deleteList(req.app.get("db"), req.params.id)
-<<<<<<< HEAD
             .then(() => {
                 res.status(204).end();
             })
             .catch(next);
-=======
-            .then((numRowsAffected) => {
-                res.status(204).end();
-            }).catch(next);
->>>>>>> a7de46fc713c7978e224e202ad4d4cd99981ec2b
     })
     .patch(requireAuth, (req, res, next) => {
         const {
@@ -203,27 +143,16 @@ listsRouter.route("/:id").all((req, res, next) => {
         }
 
         ListsService.updateList(req.app.get("db"), req.params.id, listToUpdate)
-<<<<<<< HEAD
             .then((updatedList) => {
                 res.json(updatedList)
             })
             .catch(next);
     })
-    // .put(requireAuth, (req, res, next) => {
-    .put((req, res, next) => {
+    .put(requireAuth, (req, res, next) => {
+        // .put( (req, res, next) => {
         const { id, checked } = req.body;
         const listCheck = { id, checked };
         console.log(listCheck)
-=======
-            .then((numRowsAffected) => {
-                res.status(204).end();
-            })
-            .catch(next);
-    })
-    .put(requireAuth, (req, res, next) => {
-        const { id, checked } = req.body;
-        const listCheck = { id, checked };
->>>>>>> a7de46fc713c7978e224e202ad4d4cd99981ec2b
 
         const numberOfValues = Object.values(listCheck).filter(Boolean).length;
 
@@ -231,16 +160,11 @@ listsRouter.route("/:id").all((req, res, next) => {
             logger.error(`Invalid update without required fields`);
             return res.status(400).json({
                 error: {
-<<<<<<< HEAD
                     message: `Request body must contain either 'note' or 'name'`,
-=======
-                    message: `Request body must contain either 'note' or 'name'`
->>>>>>> a7de46fc713c7978e224e202ad4d4cd99981ec2b
                 },
             });
         }
 
-<<<<<<< HEAD
         ListsService.updateList(req.app.get("db"), req.params.id, listCheck)
             .then((data) => {
                 res.json(data)
@@ -248,13 +172,4 @@ listsRouter.route("/:id").all((req, res, next) => {
             .catch(next);
     });
 
-=======
-        ListsService.updateChecked(req.app.get("db"), req.params.id, listCheck).then((numRowAffected) => {
-            res.status(204).end();
-        })
-            .catch(next);
-    });
-
-
->>>>>>> a7de46fc713c7978e224e202ad4d4cd99981ec2b
 module.exports = listsRouter;

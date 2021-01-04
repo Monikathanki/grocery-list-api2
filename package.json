@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
     "name": "grocery-list-api2",
-=======
-    "name": "grocery-list-api1",
->>>>>>> a7de46fc713c7978e224e202ad4d4cd99981ec2b
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -14,7 +10,8 @@
         "migrate:test": "env NODE_ENV=test npm run migrate",
         "start": "node src/server.js",
         "predeploy": "npm audit",
-        "deploy": "git push heroku main"
+        "deploy": "git push heroku main",
+        "seed": "psql -U dunder-mifflin -d grocery -f seeds/seed.lists.sql"
     },
     "keywords": [],
     "author": "",
@@ -29,10 +26,7 @@
         "knex": "^0.21.15",
         "morgan": "^1.10.0",
         "pg": "^8.5.1",
-<<<<<<< HEAD
-=======
         "uuid": "^8.3.2",
->>>>>>> a7de46fc713c7978e224e202ad4d4cd99981ec2b
         "winston": "^3.3.3",
         "xss": "^1.0.8"
     },

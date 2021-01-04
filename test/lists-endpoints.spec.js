@@ -372,6 +372,7 @@ describe(`lists service object`, function () {
                 const expectedList = {
                     ...testLists[idToUpdate - 1],
                     ...updateList,
+                };
 
                     return supertest(app)
                         .patch(`/api/lists/${idToUpdate}`)
